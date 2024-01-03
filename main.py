@@ -59,17 +59,30 @@ def filter_common_english_words(common_words):
     common_english_words.update(sw_spacy)
     return [word for word in common_words if word[0] not in common_english_words]
 
+def generate_wordcloud(common_words):
+    from wordcloud import WordCloud
+    import matplotlib.pyplot as plt
+    wordcloud = WordCloud(width=1600, height=800, max_font_size=200, background_color="white")
+    wordcloud = wordcloud.generate_from_frequencies(dict(common_words))
+    plt.figure(figsize=(20,10))
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.savefig('wordcloud.png')
+
 def main():
     parser = argparse.ArgumentParser("fuzzy_match")
     parser.add_argument("--file_path", type=str, default="2023.txt")
     parser.add_argument("--threshold", type=int, default=94)
     parser.add_argument("--top_n", type=int, default=50)
+    parser.add_argument("--wordcloud", type=bool, default=False)
     args = parser.parse_args()
     file_path = args.file_path
     text = read_file(file_path)
     words = preprocess_text(text)
     common_words = get_fuzzy_common_words(words, threshold=args.threshold, top_n=args.top_n)
     
+    if args.generate_wordcloud:
+        generate_wordcloud(common_words)
     for (word, count), rank in zip(common_words, range(1, args.top_n + 1)):
         print(f"{rank}. {word} ({count})")
 

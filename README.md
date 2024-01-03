@@ -6,5 +6,5 @@ a multi-threaded fuzzy search script that finds the top words used in your iMess
 3. `SELECT text FROM message WHERE datetime((date / 1000000000) + 978307200, 'unixepoch', 'localtime') > datetime(1672560000, 'unixepoch', 'localtime') and is_from_me == 1;`
 4. Move to this folder and just type `python3 main.py` and you're good to go!
 
-change up --threshold for the fuzzy search and --n_words for the number of words you want to see
+change up --threshold for the fuzzy search and --n_words for the number of words you want to see! To generate a wordcloud add --wordcloud to the end of the command
 
