@@ -81,7 +81,7 @@ def main():
     words = preprocess_text(text)
     common_words = get_fuzzy_common_words(words, threshold=args.threshold, top_n=args.top_n)
     
-    if args.generate_wordcloud:
+    if args.wordcloud:
         generate_wordcloud(common_words)
     for (word, count), rank in zip(common_words, range(1, args.top_n + 1)):
         print(f"{rank}. {word} ({count})")
