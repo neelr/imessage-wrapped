@@ -8,6 +8,10 @@ from thefuzz import process
 import argparse
 from tqdm import tqdm
 import nltk
+import spacy
+#loading the english language small model of spacy
+en = spacy.load('en_core_web_sm')
+sw_spacy = en.Defaults.stop_words
 
 # Download required NLTK data
 nltk.download('punkt')
@@ -52,6 +56,7 @@ def get_fuzzy_common_words(words, threshold=94, top_n=50):
 
 def filter_common_english_words(common_words):
     common_english_words = set(stopwords.words('english'))
+    common_english_words.update(sw_spacy)
     return [word for word in common_words if word[0] not in common_english_words]
 
 def main():
